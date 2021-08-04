@@ -766,6 +766,7 @@ select * from student order by age desc;
 在查询操作时，假若表名很长使用起来就不太方便，此时可为表取一个別名，用该别名来代替表的名称。语法格式如下所示：
 ```
 SELECT * FROM 表名 [AS] 表的别名 WHERE .... ;
+-- AS可以省略
 ```
 - 将student改为stu查询整表 MySQL命令：
 ```
