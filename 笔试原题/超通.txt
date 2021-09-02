@@ -1,0 +1,55 @@
+1.python的基础数据类型有哪些？
+2.python中字典底层是什么实现的？
+3.python 字典的键不能是哪种数据类型？
+4.
+class A:
+    def __init__(self, a):
+        print(a)lao slaos
+b=A(1)
+如何使 b() 返回 "you are right"
+5.找出列表a出现最多的元素,优先一行写出
+a=[1, 2, 3, 2, 3, 0, 0, 0]
+6.说下mysql事务的基本特性?
+7. mysql 结构化查询语言包含6个部分? 简单说几类常用的
+8.mysql HAVING的用法？
+9.一句mysql 包含这些，顺序是什么，排序即可 ？ `between and` `where` `select` `from` `order by` `group by` `having` `max()` `count()` `offset` `limit` `join`
+10. python 字典有 a={"xx": "1"}
+ b=a["pp"]会发生什么？
+ a.get("pp")会发生什么？
+ 要求不对字典a添加元素的情况下，执行b=a["pp"] ， b被赋值为int()，你会怎么做？
+
+
+ 1. int float str bool list dict tuple set
+ 2. 字典是通过哈希表实现的。字典也被称为关联数组，还称为哈希数组等。也就是说，字典也是一个数组，
+ 	但数组的索引是键经过哈希函数处理后得到的散列值。哈希函数的目的是使键均匀地分布在数组中，
+	并且可以在内存中以O(1)的时间复杂度进行寻址，从而实现快速查找和修改。
+ 3. 字典的键必须是不可变的，list、dict、set和内部至少带有上述三种类型之一的tuple都不能作为键
+ 4. b=A('you are right')
+ 5. print(max(a, key=a.count))
+ 6. 原子性:对数据的改操作要么全部执行（事务提交），要么全部不执行（事务回滚）
+    一致性:如果一个事务作为原子从一个一致的数据库状态开始独立地运行，则事务结束时数据库也必须再次是一致的。
+	隔离性:事务的隔离性意味着并发的事务之间是相互隔离的。即一个事务的内部操作及正在操作的数据必须封锁起来，不被企图进行修改的其他事务看到。
+	持久性:持久性意味着当系统或介质发生故障时，确保已提交事务的更新不能丢失。
+ 7. 数据查询语言：作用是从表中获取数据，确定数据怎样在应用程序给出。
+    数据操作语言：其语句包括动词INSERT,UPDATE和DELETE。它们分别用于添加，修改和删除表中的行（数据）。也称为动作查询语言。
+	事务处理语言：它的语句能确保被DML语句影响的表的所有行及时得以更新。
+	数据控制语言
+	数据定义语言
+	指针控制语言
+ 8. SELECT column1, column2, … column_n, aggregate_function (expression)
+	FROM tables
+	WHERE predicates
+	GROUP BY column1, column2, … column_n
+	HAVING condition1 … condition_n;
+ 9. 查询语句的书写顺序和执行顺序 select ===> from ===> where ===> group by ===> having ===> order by ===> limit
+	查询语句的执行顺序 from ===> where ===> group by ===> having ===> select ===> order by ===> limit
+
+ 10. b=a["pp"] : 该句式是把字典a 键"pp"的值 赋值给b, 因为不存在键“pp”,所以会报错
+	 a.get("pp")： 该句式是返回键“pp”的值， 因为不存在键“pp”， 所以返回空
+	 if "pp" not in a:
+		b = int()
+	 else:
+	 	b = a["pp"]
+
+
+
