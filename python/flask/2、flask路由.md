@@ -1,0 +1,124 @@
+# 使用路由
+
+使用[route()](https://flask.palletsprojects.com/en/2.0.x/api/#flask.Flask.route)装饰器将函数绑定到URL
+```
+@app.route('/')
+def index():
+    return 'Index Page'
+
+@app.route('/hello')
+def hello():
+    return 'Hello, World'
+```
+
+
+## HTML转义
+
+```
+from markupsafe import escape
+
+@app.route("/<name>")
+def hello(name):
+    return f"Hello, {escape(name)}!"
+```
+
+
+## 使用变量规则
+
+- 通过把 URL 的一部分标记为 `<variable_name>` 就可以在 URL 中添加变量。
+    ```
+    @app.route('/user/<username>')
+    def show_user_profile(username):
+        # show the user profile for that user
+        return f'User {escape(username)}'
+    ```
+
+- 通过使用 <converter:variable_name> ，可以选择性的加上一个`转换器`，为变量指定规则。
+    ```
+    @app.route('/post/<int:post_id>')
+    def show_post(post_id):
+        # show the post with the given id, the id is an integer
+        return f'Post {post_id}'
+
+    @app.route('/path/<path:subpath>')
+    def show_subpath(subpath):
+        # show the subpath after /path/
+        return f'Subpath {escape(subpath)}'
+    ```
+
+- 转换器类型
+    ```
+    string  (缺省值） 接受任何不包含斜杠的文本
+    int     接受正整数
+    float   接受正浮点数
+    path    类似 string ，但可以包含斜杠
+    uuid    接受 UUID 字符串
+    ```
+
+## 唯一的 URLs/ 重定向行为
+```
+# 尾部有一个斜杠，看起来就如同一个文件夹。 
+# 访问一个没有斜杠结尾的/projects时 Flask 会自动进行重定向，帮你在尾部加上一个斜杠。
+@app.route('/projects/') 
+def projects():
+    return 'The project page'
+
+# 表现与一个文件类似。
+# 如果访问这个 URL 时添加了尾部斜杠就会得到一个 404 错误。
+@app.route('/about') 
+def about():
+    return 'The about page'
+```
+
+
+## 通过函数名反向构建URL
+[url_for()](https://dormousehole.readthedocs.io/en/latest/api.html#flask.url_for) 函数用于构建指定函数的 URL
+```
+from flask import url_for
+
+@app.route('/')
+def index():
+    return 'index'
+
+@app.route('/login')
+def login():
+    return 'login'
+
+@app.route('/user/<username>')
+def profile(username):
+    return f'{username}\'s profile'
+
+with app.test_request_context():
+    print(url_for('index'))
+    print(url_for('login'))
+    print(url_for('login', next='/'))
+    print(url_for('profile', username='John Doe'))
+```
+
+```
+# 输出
+/
+/login
+/login?next=/
+/user/John%20Doe
+```
+
+## HTTP方法
+
+- 默认情况下，一个路由只回应 GET 请求。
+- 可以通过装饰器`route()`的`methods`参数来处理不同的 HTTP 方法
+    ```
+    from flask import request
+
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if request.method == 'POST':
+            return do_the_login()
+        else:
+            return show_the_login_form()
+    ```
+- 如果当前使用了 GET 方法， Flask 会自动添加 HEAD 方法支持，并且同时还会 按照 [HTTP RFC](https://www.ietf.org/rfc/rfc2068.txt) 来处理 HEAD 请求。同样， OPTIONS 也会自动实现。
+
+
+## 静态文件
+

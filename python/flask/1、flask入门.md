@@ -19,7 +19,7 @@ pip install flask
 	app = Flask(__name__)		# 创建一个实例，参数`__name__`在用python直接执行该文件时__name__ == "__main__", 在被其他文件导入时 __name__ 等于该文件名
 
 	@app.route("/")		# flask装饰器实现的路由
-	def index():		# 该函数返回浏览器显示的信息，默认类型为html
+	def hello_world():		# 该函数返回浏览器显示的信息，默认类型为html
 		return "<p>Hello, World!</p>"
 
 	if __name__ == "__main__":
